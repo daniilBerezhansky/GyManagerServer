@@ -1,6 +1,7 @@
 package com.example;
 
 import com.example.config.WebConfig;
+import com.example.repository.PersonRepository;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
