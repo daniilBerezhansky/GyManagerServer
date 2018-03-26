@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.http.HTTPException;
 import java.util.List;
 
 @RestController
@@ -17,14 +18,26 @@ public class GymControl {
 
     @RequestMapping(value = "/persons", method = RequestMethod.GET)
     //@ResponseBody
-    /*public List<Person> getAllPersons(){
+    public List<Person> getAllPersons() {
         List<Person> all = service.getAll();
-        return all;*/
-    Page<Person> list(Pageable pageable){
-        Page<Person> all = service.getAll(pageable);
         return all;
-    }
 
+    }
+    @RequestMapping(
+            value = "/persons",
+            params = { "page", "size" },
+            method = RequestMethod.GET
+    )
+    public Page<Person> findPaginated(
+            @RequestParam("page") int page, @RequestParam("size") int size) {
+
+        Page<Person> resultPage = service.findPaginated(page, size);
+        if (page > resultPage.getTotalPages()) {
+            throw new HTTPException(228);
+        }
+
+        return resultPage;
+    }
 
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.GET)
     //@ResponseBody
@@ -32,6 +45,7 @@ public class GymControl {
        return service.getById(personID);
 
     }
+
     @RequestMapping(value = "/persons", method = RequestMethod.POST)
     //@ResponseBody
     public Person savePerson(@RequestBody Person person){
