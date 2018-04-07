@@ -17,7 +17,6 @@ public class GymControl {
     PersonService service;
 
     @RequestMapping(value = "/persons", method = RequestMethod.GET)
-    //@ResponseBody
     public List<Person> getAllPersons() {
         List<Person> all = service.getAll();
         return all;
@@ -30,30 +29,26 @@ public class GymControl {
     )
     public Page<Person> findPaginated(
             @RequestParam("page") int page, @RequestParam("size") int size) {
-
         Page<Person> resultPage = service.findPaginated(page, size);
-        if (page > resultPage.getTotalPages()) {
+        /*if (page > resultPage.getTotalPages()) {
             throw new HTTPException(228);
-        }
+        }*/
 
         return resultPage;
     }
 
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.GET)
-    //@ResponseBody
     public Person getPerson(@PathVariable("id") long personID){
        return service.getById(personID);
 
     }
 
     @RequestMapping(value = "/persons", method = RequestMethod.POST)
-    //@ResponseBody
     public Person savePerson(@RequestBody Person person){
         return service.save(person);
 
     }
     @RequestMapping(value = "/persons/{id}", method = RequestMethod.DELETE)
-    //@ResponseBody
     public void deletePerson(@PathVariable("id") long personID){
          service.remove(personID);
 

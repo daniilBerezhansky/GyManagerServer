@@ -25,7 +25,6 @@ public class WebConfig implements WebMvcConfigurer {
 
         ObjectMapper mapper = new ObjectMapper();
          mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        //Registering Hibernate4Module to support lazy objects
         mapper.registerModule(new Hibernate5Module());
 
         messageConverter.setObjectMapper(mapper);
@@ -35,10 +34,6 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-     /* MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(new ObjectMapper);
-        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));*/
-
         converters.add(jacksonMessageConverter());
 
     }
